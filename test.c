@@ -8,17 +8,14 @@ int main(int ac, char *av[])
     int n;
 
     int id = fork();
-    if (id == 0)
+    if (id == 0)  // child process l3ar
     {
         n = 1;
     }
     else  {
-        id = 0;        
+        n = 6;
+        wait(NULL);      
     }
-    // if (id != 0)
-    // {
-    //     wait(&id);
-    // }
     
     int i = n;
     while (i < n + 5)
