@@ -3,7 +3,7 @@ CFLAGS  = -Wall -Wextra -Werror
 
 PROG    = pipe
 
-SRCS    = pipex.c utils.c
+SRCS    = pipex.c helper.c free.c
 OBJS    = $(SRCS:.c=.o)
 
 HEADER  = pipex.h

@@ -6,16 +6,16 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/01/30 13:54:37 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:13:36 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+// #include "pipex.h"
 
-int main(int ac, char **av, char **envp)
-{
-    if (ac != 5)
-    {
+// int main(int ac, char **av, char **envp)
+// {
+//     if (ac != 5)
+//     {
         
-    }
-}
+//     }
+// }
