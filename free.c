@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/01/30 13:54:37 by ykhoussi         ###   ########.fr       */
+/*   Created: 2025/01/30 15:04:03 by ykhoussi          #+#    #+#             */
+/*   Updated: 2025/01/30 15:08:36 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int main(int ac, char **av, char **envp)
+void free_array(char **arr)
 {
-    if (ac != 5)
+    int i = 0;
+    if (!arr) return;
+    while (arr[i])
     {
-        
+        free(arr[i]);
+        i++;
     }
+    free(arr);
+}
+void    error_message(const char *msg)
+{
+    write(STDERR_FILENO, msg, ft_strlen(msg));
 }
