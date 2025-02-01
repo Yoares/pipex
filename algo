@@ -1,0 +1,8 @@
+        // open infile && handle orrer
+        // check_path 
+        // open outfile
+        // pipe
+        // fork => checkpath execve dup2 
+        // fork =>  checkpath here => execve
+        // close
+        // waitpi 

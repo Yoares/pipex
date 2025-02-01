@@ -6,20 +6,20 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/01/30 15:26:18 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/01/31 19:53:41 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*extract_path(char *cmd, char **envp)
+char    *extract_path(char *cmd, char **envp)
 {
-    char **path;
-    char *fullpath;
-    
+    char    **path;
+    char    *fullpath;
+
     int i;
     i = 0;
-    while(envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
+    while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
         i++;
     if (envp[i] == NULL)
         return NULL;
@@ -41,31 +41,31 @@ char	*extract_path(char *cmd, char **envp)
     return NULL;
 }
 
-void	execution(char *av, char **envp)
+void    execution(char *av, char **envp)
 {
-    char **cmd;
-    char *expath = NULL;
-    
+    char    **cmd;
+    char    *expath = NULL;
+
     cmd = ft_split(av, ' ');
-    
     if (!cmd)
     {
         free_array(cmd);
     }
     if (ft_strchr(cmd[0], '/'))
     {
-        expath = cmd[0];        
+        expath = cmd[0];
     }
-    else 
+    else
         expath = extract_path(cmd[0], envp);
-        
+
     if (!expath || access(expath, X_OK) == -1)
     {
         free_array(cmd);
         if (expath && expath != cmd[0])
-			free(expath);
+            free(expath);
         return;
     }
     execve(expath, cmd, envp);
-    free_array(cmd);
+    perror("Error");
+    exit(126);
 }
