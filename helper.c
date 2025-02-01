@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/01 17:32:47 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:37:12 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char    *extract_path(char *cmd, char **envp)
 {
     char    **path;
     char    *fullpath;
-
     int i;
+    
     i = 0;
     while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
         i++;

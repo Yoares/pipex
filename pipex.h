@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:41 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/01 17:55:27 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/01 18:38:51 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,6 @@ void execution(char *av, char **envp);
 void free_array(char **arr);
 void    error_message(const char *msg);
 void files_and_pipes(int *infile, int *outfile, int *pipe_fd, char **av);
+void    child_p1(int infile, int *pipe_fd, char *cmd, char **envp);
+void    child_p2(int outfile, int *pipe_fd, char *cmd, char **envp);
 #endif
