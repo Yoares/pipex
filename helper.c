@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/01/31 19:53:41 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:32:47 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void    execution(char *av, char **envp)
     }
     else
         expath = extract_path(cmd[0], envp);
-
+    
     if (!expath || access(expath, X_OK) == -1)
     {
         free_array(cmd);

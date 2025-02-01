@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:41 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/01/30 17:55:02 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/01 17:55:27 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ char *extract_path(char *cmd, char **envp);
 void execution(char *av, char **envp);
 void free_array(char **arr);
 void    error_message(const char *msg);
+void files_and_pipes(int *infile, int *outfile, int *pipe_fd, char **av);
 #endif
