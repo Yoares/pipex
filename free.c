@@ -27,3 +27,13 @@ void    error_message(const char *msg)
 {
     perror(msg);
 }
+
+void put_error(char *cmd)
+{
+    int i = 0;
+
+    while (cmd[i])
+        i++;
+    write(2, cmd, i);
+    write(2, ": command not found\n", 20);
+}
