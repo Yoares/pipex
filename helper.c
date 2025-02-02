@@ -60,10 +60,12 @@ void    execution(char *av, char **envp)
     
     if (!expath || access(expath, X_OK) == -1)
     {
-        free_array(cmd);
-        if (expath && expath != cmd[0])
+        put_error(cmd_parts[0]);
+        free_array(cmd_parts);
+        if (expath) 
             free(expath);
-        return;
+        exit(127);
+        free_array(cmd);
     }
     execve(expath, cmd, envp);
     perror("Error");
