@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/02 19:37:40 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 19:51:13 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,15 @@ void	execution(char *av, char **envp)
 	char	*expath;
 
 	cmd = ft_split(av, ' ');
-	if (!cmd || !cmd[0]) 
+	if (!cmd || !cmd[0])
 	{
 		free_array(cmd);
 		exit(1);
-	}	
+	}
 	if (cmd[0] && ft_strchr(cmd[0], '/'))
 		expath = ft_strdup(cmd[0]);
 	else
 		expath = extract_path(cmd[0], envp);
-
 	if (!expath || access(expath, X_OK) == -1)
 	{
 		put_error(cmd[0]);
