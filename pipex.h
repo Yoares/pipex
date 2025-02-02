@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:41 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/02 16:38:54 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 17:18:27 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
 # include <stdio.h>
 # include <sys/wait.h>
 # include <fcntl.h>

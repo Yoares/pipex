@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:04:03 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/02 16:51:16 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:53:10 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void	free_array(char **arr)
 	int	i;
 
 	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
+	while (arr && arr[i])
 	{
 		free(arr[i]);
 		i++;

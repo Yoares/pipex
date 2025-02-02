@@ -1,7 +1,7 @@
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror
+CFLAGS  = -Wall -Wextra -Werror -g
 
-PROG    = pipe
+PROG    = pipex
 
 SRCS    = pipex.c helper.c free.c
 OBJS    = $(SRCS:.c=.o)

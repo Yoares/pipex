@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/02 16:43:14 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 18:43:39 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	files_and_pipes(int *infile, int *outfile, int *pipe_fd, char **av)
 {
-	*infile = open(av[1], O_CREAT | O_RDONLY | O_TRUNC, 0664);
+	*infile = open(av[1], O_RDONLY);
 	if (*infile == -1)
 	{
 		error_message(av[1]);
