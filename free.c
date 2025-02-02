@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:04:03 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/01/31 19:49:57 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 15:30:19 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ void    error_message(const char *msg)
 
 void put_error(char *cmd)
 {
-    int i = 0;
-
-    while (cmd[i])
-        i++;
-    write(2, cmd, i);
-    write(2, ": command not found\n", 20);
+    if (ft_strchr(cmd, '/'))
+        write(2, cmd, ft_strlen(cmd)), write(2, ": No such file or directory\n", 28);
+    else
+        write(2, cmd, ft_strlen(cmd)), write(2, ": command not found\n", 20);
 }
