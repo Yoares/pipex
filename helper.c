@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/01 18:37:12 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 14:39:37 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ void    execution(char *av, char **envp)
 
     cmd = ft_split(av, ' ');
     if (!cmd)
-    {
         free_array(cmd);
-    }
     if (ft_strchr(cmd[0], '/'))
     {
         expath = cmd[0];
@@ -60,12 +58,11 @@ void    execution(char *av, char **envp)
     
     if (!expath || access(expath, X_OK) == -1)
     {
-        put_error(cmd_parts[0]);
-        free_array(cmd_parts);
+        put_error(cmd[0]);
+        free_array(cmd);
         if (expath) 
             free(expath);
         exit(127);
-        free_array(cmd);
     }
     execve(expath, cmd, envp);
     perror("Error");

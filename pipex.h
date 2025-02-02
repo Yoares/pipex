@@ -28,4 +28,6 @@ void    error_message(const char *msg);
 void files_and_pipes(int *infile, int *outfile, int *pipe_fd, char **av);
 void    child_p1(int infile, int *pipe_fd, char *cmd, char **envp);
 void    child_p2(int outfile, int *pipe_fd, char *cmd, char **envp);
+void free_array(char **arr);
+void put_error(char *cmd);
 #endif
