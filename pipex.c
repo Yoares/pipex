@@ -6,44 +6,52 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/02 19:55:04 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:59:11 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	files_and_pipes(int *infile, int *outfile, int *pipe_fd, char **av)
+void	init(t_pipex *pipex, char	**av)
 {
-	*infile = open(av[1], O_RDONLY);
-	if (*infile == -1)
+	pipex->infile = av[1];
+	pipex->outfile = av[4];
+	
+}
+void	files_and_pipes(t_pipex *pipex)
+{
+	
+	pipex->infile = open(pipex->infile, O_RDONLY);
+	if (pipex->infile == -1)
 	{
-		error_message(av[1]);
+		error_message(pipex->infile);
 		exit(1);
 	}
-	*outfile = open(av[4], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-	if (*outfile == -1)
+	pipex->outfile = open(pipex->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	if (pipex->outfile== -1)
 	{
 		error_message("error opening");
-		close(*infile);
+		close(pipex->infile);
 		exit(1);
 	}
-	if (pipe(pipe_fd) == -1)
+	if (pipe(pipex->pipe_fd) == -1)
 	{
 		error_message("Pipe error");
-		close(*infile);
-		close(*outfile);
+		close(pipex->infile);
+		close(pipex->outfile);
 		exit(1);
 	}
 }
 
-void	child_p1(int infile, int *pipe_fd, char *cmd, char **envp)
+void	child_p1(t_pipex *pipex, char **envp)
 {
-	dup2(pipe_fd[1], STDOUT_FILENO);
-	dup2(infile, STDIN_FILENO);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	close(infile);
-	execution(cmd, envp);
+	dup2(pipex->pipe_fd[1], STDOUT_FILENO);	
+	dup2(pipex->infile, STDIN_FILENO);
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
+	close(pipex->infile);
+	close(pipex->outfile);
+	execution(pipex->cmd, envp);
 	perror("Execution failed");
 	exit(1);
 }
@@ -62,11 +70,9 @@ void	child_p2(int outfile, int *pipe_fd, char *cmd, char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	int		pipe_fd[2];
+	t_pipex * pipex;
 	pid_t	pid1;
 	pid_t	pid2;
-	int		outfile;
-	int		infile;
 
 	if (ac != 5 || !*av[1] || !*av[2] || !*av[3] || !*av[4])
 	{
@@ -79,17 +85,18 @@ int	main(int ac, char **av, char **envp)
 		error_message("command arguments are empty");
 		exit(1);
 	}
-	files_and_pipes(&infile, &outfile, pipe_fd, av);
+	init(pipex,av);
+	files_and_pipes(pipex);
 	pid1 = fork();
 	if (pid1 == 0)
-		child_p1(infile, pipe_fd, av[2], envp);
+		child_p1(pipex, envp);
 	pid2 = fork();
 	if (pid2 == 0)
-		child_p2(outfile, pipe_fd, av[3], envp);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-	close(infile);
-	close(outfile);
+		child_p2(pipex->outfile, pipex->pipe_fd, av[3], envp);
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
+	close(pipex->infile);
+	close(pipex->outfile);
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:41 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/02 19:44:10 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/02 20:50:25 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,12 @@ void	child_p1(int infile, int *pipe_fd, char *cmd, char **envp);
 void	child_p2(int outfile, int *pipe_fd, char *cmd, char **envp);
 void	free_array(char **arr);
 void	put_error(char *cmd);
+typedef	struct	s_pipex
+{
+    int infile;
+    int	outfile;
+    char	**cmd;
+    int	pipe_fd[2];
+}	t_pipex;
+
 #endif
