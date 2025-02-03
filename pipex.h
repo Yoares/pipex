@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:41 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 19:58:57 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 21:25:53 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_pipex
 
 char	*extract_path(char *cmd, char **envp);
 void	execution(t_pipex *pipex, char **envp, int n_cmd);
-void	free_array(char **arr);
 void	error_message(const char *msg);
 void	files_and_pipes(t_pipex *pipex);
 void	child_p1(t_pipex *pipex, char **envp);
