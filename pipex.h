@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:41 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/02 20:50:25 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:15:12 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,25 @@
 # include <fcntl.h>
 # include "libft/libft.h"
 
-char	*extract_path(char *cmd, char **envp);
-void	execution(char *av, char **envp);
-void	free_array(char **arr);
-void	error_message(const char *msg);
-void	files_and_pipes(int *infile, int *outfile, int *pipe_fd, char **av);
-void	child_p1(int infile, int *pipe_fd, char *cmd, char **envp);
-void	child_p2(int outfile, int *pipe_fd, char *cmd, char **envp);
-void	free_array(char **arr);
-void	put_error(char *cmd);
 typedef	struct	s_pipex
 {
-    int infile;
-    int	outfile;
-    char	**cmd;
+    char *infile_path;
+    char *outfile_path;
+    int infile_fd;
+    int outfile_fd;
+    char **cmd1;
+    char **cmd2;
     int	pipe_fd[2];
 }	t_pipex;
 
+char	*extract_path(char *cmd, char **envp);
+void	execution(t_pipex *pipex, char **envp, int n_cmd);
+void	free_array(char **arr);
+void	error_message(const char *msg);
+void	files_and_pipes(t_pipex *pipex);
+void	child_p1(t_pipex *pipex, char **envp);
+void	child_p2(t_pipex *pipex, char **envp);
+void	free_array(char **arr);
+void	put_error(char *cmd);
+void	free_cmd(char **cmd);
 #endif
