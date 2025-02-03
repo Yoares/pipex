@@ -6,13 +6,13 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 20:31:54 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 21:17:46 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void handle_exec_error(char *expath, t_pipex *pipex, char *cmd)
+static	void	handle_exec_error(char *expath, t_pipex *pipex, char *cmd)
 {
 	put_error(cmd);
 	free(expath);
@@ -21,63 +21,41 @@ static void handle_exec_error(char *expath, t_pipex *pipex, char *cmd)
 	exit(127);
 }
 
-static void execve_error(char *expath, char **cmd, t_pipex *pipex)
+static	void	execve_error(char *expath, t_pipex *pipex)
 {
-	write(2, "execve failed\n", 14);
-	free_array(cmd);
+	perror("execve failed");
 	free(expath);
 	free_cmd(pipex->cmd1);
 	free_cmd(pipex->cmd2);
 	exit(1);
 }
 
-static char *join_path(char *path, char *cmd)
+static	void	handle_cmd_error(t_pipex *pipex)
 {
-	char *tmp;
-	char *fullpath;
-
-	tmp = ft_strjoin(path, "/");
-	if (!tmp)
-		return (NULL);
-	fullpath = ft_strjoin(tmp, cmd);
-	free(tmp);
-	if (!fullpath)
-		return (NULL);
-	return (fullpath);
+	free_cmd(pipex->cmd1);
+	free_cmd(pipex->cmd2);
+	exit(1);
 }
 
-char *extract_path(char *cmd, char **envp)
+static	char	*get_command_path(char **cmd, char **envp)
 {
-	char **path;
-	char *fullpath;
-	int i;
+	char	*expath;
 
-	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
-		i++;
-	if (envp[i] == NULL)
-		return (NULL);
-	path = ft_split(envp[i] + 5, ':');
-	i = 0;
-	while (path && path[i])
+	if (cmd && ft_strchr(cmd[0], '/'))
 	{
-		fullpath = join_path(path[i], cmd);
-		if (access(fullpath, F_OK) == 0)
-		{
-			free_array(path);
-			return (fullpath);
-		}
-		free(fullpath);
-		i++;
+		expath = ft_strdup(cmd[0]);
+		if (!expath)
+			return (NULL);
 	}
-	free_array(path);
-	return (NULL);
+	else
+		expath = extract_path(cmd[0], envp);
+	return (expath);
 }
 
-void execution(t_pipex *pipex, char **envp, int n_cmd)
+void	execution(t_pipex *pipex, char **envp, int n_cmd)
 {
-	char *expath;
-	char **cmd;
+	char	*expath;
+	char	**cmd;
 
 	cmd = NULL;
 	if (!n_cmd)
@@ -85,17 +63,10 @@ void execution(t_pipex *pipex, char **envp, int n_cmd)
 	else if (n_cmd == 1)
 		cmd = pipex->cmd2;
 	if (!cmd || !*cmd)
-	{
-		free_cmd(pipex->cmd2);
-		free(pipex->cmd1);
-		exit(1);
-	}
-	if (cmd && ft_strchr(cmd[0], '/'))
-		expath = ft_strdup(cmd[0]);
-	else
-		expath = extract_path(cmd[0], envp);
+		handle_cmd_error(pipex);
+	expath = get_command_path(cmd, envp);
 	if (!expath || access(expath, X_OK) == -1)
 		handle_exec_error(expath, pipex, cmd[0]);
-	execve(expath, cmd, envp);
-	execve_error(expath, cmd, pipex);
+	if (execve(expath, cmd, envp) == -1)
+		execve_error(expath, pipex);
 }

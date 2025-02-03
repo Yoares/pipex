@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 20:29:13 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 21:18:05 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	child_p2(t_pipex *pipex, char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
-	
 
 	if (ac != 5 || !*av[1] || !*av[2] || !*av[3] || !*av[4])
 	{
