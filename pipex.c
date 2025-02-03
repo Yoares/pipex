@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 17:09:35 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:29:13 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ void	child_p2(t_pipex *pipex, char **envp)
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	pipex;
-	pid_t	pid1;
-	pid_t	pid2;
+	
 
 	if (ac != 5 || !*av[1] || !*av[2] || !*av[3] || !*av[4])
 	{
@@ -95,13 +94,13 @@ int	main(int ac, char **av, char **envp)
 	}
 	init(&pipex, av);
 	files_and_pipes(&pipex);
-	pid1 = fork();
-	if (pid1 == 0)
+	pipex.pid1 = fork();
+	if (pipex.pid1 == 0)
 		child_p1(&pipex, envp);
-	pid2 = fork();
-	if (pid2 == 0)
+	pipex.pid2 = fork();
+	if (pipex.pid2 == 0)
 		child_p2(&pipex, envp);
-	cleanup_and_wait(&pipex, pid1, pid2);
+	cleanup_and_wait(&pipex, pipex.pid1, pipex.pid2);
 	if (pipex.cmd1)
 		free_cmd(pipex.cmd1);
 	if (pipex.cmd2)

@@ -6,13 +6,13 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 17:16:16 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 20:31:54 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static	void	handle_exec_error(char *expath, t_pipex *pipex, char *cmd)
+static void handle_exec_error(char *expath, t_pipex *pipex, char *cmd)
 {
 	put_error(cmd);
 	free(expath);
@@ -21,7 +21,7 @@ static	void	handle_exec_error(char *expath, t_pipex *pipex, char *cmd)
 	exit(127);
 }
 
-static	void	execve_error(char *expath, char **cmd, t_pipex *pipex)
+static void execve_error(char *expath, char **cmd, t_pipex *pipex)
 {
 	write(2, "execve failed\n", 14);
 	free_array(cmd);
@@ -31,10 +31,10 @@ static	void	execve_error(char *expath, char **cmd, t_pipex *pipex)
 	exit(1);
 }
 
-static	char	*join_path(char *path, char *cmd)
+static char *join_path(char *path, char *cmd)
 {
-	char	*tmp;
-	char	*fullpath;
+	char *tmp;
+	char *fullpath;
 
 	tmp = ft_strjoin(path, "/");
 	if (!tmp)
@@ -46,11 +46,11 @@ static	char	*join_path(char *path, char *cmd)
 	return (fullpath);
 }
 
-char	*extract_path(char *cmd, char **envp)
+char *extract_path(char *cmd, char **envp)
 {
-	char	**path;
-	char	*fullpath;
-	int		i;
+	char **path;
+	char *fullpath;
+	int i;
 
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
@@ -74,10 +74,10 @@ char	*extract_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	execution(t_pipex *pipex, char **envp, int n_cmd)
+void execution(t_pipex *pipex, char **envp, int n_cmd)
 {
-	char	*expath;
-	char	**cmd;
+	char *expath;
+	char **cmd;
 
 	cmd = NULL;
 	if (!n_cmd)
@@ -86,7 +86,8 @@ void	execution(t_pipex *pipex, char **envp, int n_cmd)
 		cmd = pipex->cmd2;
 	if (!cmd || !*cmd)
 	{
-		free_array(cmd);
+		free_cmd(pipex->cmd2);
+		free(pipex->cmd1);
 		exit(1);
 	}
 	if (cmd && ft_strchr(cmd[0], '/'))

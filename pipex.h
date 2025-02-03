@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:41 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 16:58:38 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 19:58:57 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct s_pipex
 	char	**cmd1;
 	char	**cmd2;
 	int		pipe_fd[2];
+	pid_t	pid1;
+	pid_t	pid2;
 }	t_pipex;
 
 char	*extract_path(char *cmd, char **envp);
