@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 13:19:12 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:09:35 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	files_and_pipes(t_pipex *pipex)
 		error_message(pipex->infile_path);
 		exit(EXIT_FAILURE);
 	}
-	pipex->outfile_fd = open(pipex->outfile_path, O_CREAT | O_WRONLY | O_TRUNC, 0664);
+	pipex->outfile_fd = open(pipex->outfile_path,
+			O_CREAT | O_WRONLY | O_TRUNC, 0664);
 	if (pipex->outfile_fd == -1)
 	{
 		error_message("error opening");
@@ -83,16 +84,15 @@ void	child_p2(t_pipex *pipex, char **envp)
 
 int	main(int ac, char **av, char **envp)
 {
-	t_pipex pipex;
-	pid_t pid1, pid2;
-	int		status;
+	t_pipex	pipex;
+	pid_t	pid1;
+	pid_t	pid2;
 
 	if (ac != 5 || !*av[1] || !*av[2] || !*av[3] || !*av[4])
 	{
 		write(1, "Usage: ./pipex infile cmd1 cmd2 outfile\n", 41);
-		return EXIT_FAILURE;
+		return (EXIT_FAILURE);
 	}
-	
 	init(&pipex, av);
 	files_and_pipes(&pipex);
 	pid1 = fork();
@@ -101,16 +101,10 @@ int	main(int ac, char **av, char **envp)
 	pid2 = fork();
 	if (pid2 == 0)
 		child_p2(&pipex, envp);
-	close(pipex.pipe_fd[0]);
-	close(pipex.pipe_fd[1]);
-	close(pipex.infile_fd);
-	close(pipex.outfile_fd);
-	waitpid(pid1, &status, 0);
-	waitpid(pid2, &status, 0);
-
+	cleanup_and_wait(&pipex, pid1, pid2);
 	if (pipex.cmd1)
 		free_cmd(pipex.cmd1);
 	if (pipex.cmd2)
 		free_cmd(pipex.cmd2);
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 15:04:03 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 13:25:31 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:19:01 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ void	put_error(char *cmd)
 	}
 }
 
-void free_cmd(char **cmd)
+void	free_cmd(char **cmd)
 {
-	int i;
+	int	i;
 
 	if (cmd)
 	{
@@ -65,4 +65,14 @@ void free_cmd(char **cmd)
 	}
 }
 
+void	cleanup_and_wait(t_pipex *pipex, pid_t pid1, pid_t pid2)
+{
+	int	status;
 
+	close(pipex->pipe_fd[0]);
+	close(pipex->pipe_fd[1]);
+	close(pipex->infile_fd);
+	close(pipex->outfile_fd);
+	waitpid(pid1, &status, 0);
+	waitpid(pid2, &status, 0);
+}

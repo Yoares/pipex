@@ -6,16 +6,35 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:36 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 13:30:02 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/03 17:16:16 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static char *join_path(char *path, char *cmd)
+static	void	handle_exec_error(char *expath, t_pipex *pipex, char *cmd)
 {
-	char *tmp;
-	char *fullpath;
+	put_error(cmd);
+	free(expath);
+	free_cmd(pipex->cmd1);
+	free_cmd(pipex->cmd2);
+	exit(127);
+}
+
+static	void	execve_error(char *expath, char **cmd, t_pipex *pipex)
+{
+	write(2, "execve failed\n", 14);
+	free_array(cmd);
+	free(expath);
+	free_cmd(pipex->cmd1);
+	free_cmd(pipex->cmd2);
+	exit(1);
+}
+
+static	char	*join_path(char *path, char *cmd)
+{
+	char	*tmp;
+	char	*fullpath;
 
 	tmp = ft_strjoin(path, "/");
 	if (!tmp)
@@ -27,11 +46,11 @@ static char *join_path(char *path, char *cmd)
 	return (fullpath);
 }
 
-char *extract_path(char *cmd, char **envp)
+char	*extract_path(char *cmd, char **envp)
 {
-	char **path;
-	char *fullpath;
-	int i;
+	char	**path;
+	char	*fullpath;
+	int		i;
 
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
@@ -55,10 +74,10 @@ char *extract_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void execution(t_pipex *pipex, char **envp, int n_cmd)
+void	execution(t_pipex *pipex, char **envp, int n_cmd)
 {
-	char *expath;
-	char **cmd;
+	char	*expath;
+	char	**cmd;
 
 	cmd = NULL;
 	if (!n_cmd)
@@ -75,20 +94,7 @@ void execution(t_pipex *pipex, char **envp, int n_cmd)
 	else
 		expath = extract_path(cmd[0], envp);
 	if (!expath || access(expath, X_OK) == -1)
-	{
-		put_error(cmd[0]);
-		free(expath);
-		if (pipex->cmd1)
-			free_cmd(pipex->cmd1);
-		if (pipex->cmd2)
-			free_cmd(pipex->cmd2);
-		exit(127);
-	}
+		handle_exec_error(expath, pipex, cmd[0]);
 	execve(expath, cmd, envp);
-	write(2, "execve failed\n", 14);
-	free_array(cmd);
-	free(expath);
-	free_cmd(pipex->cmd1);
-	free_cmd(pipex->cmd2);
-	exit(1);
+	execve_error(expath, cmd, pipex);
 }
