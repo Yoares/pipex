@@ -6,7 +6,7 @@
 /*   By: ykhoussi <ykhoussi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:44:14 by ykhoussi          #+#    #+#             */
-/*   Updated: 2025/02/03 21:23:30 by ykhoussi         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:12:21 by ykhoussi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	main(int ac, char **av, char **envp)
 	if (pipex.pid2 < 0)
 		error_message("Fork failed");
 	if (pipex.pid2 == 0)
-    child_p2(&pipex, envp);
+		child_p2(&pipex, envp);
 	cleanup_and_wait(&pipex, pipex.pid1, pipex.pid2);
 	if (pipex.cmd1)
 		free_cmd(pipex.cmd1);
