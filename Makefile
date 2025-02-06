@@ -13,7 +13,7 @@ LIBFT_A = libft/libft.a
 all: $(PROG)
 
 
-$(PROG): $(OBJS) 
+$(PROG): $(OBJS) $(HEADER) 
 	@cd libft && make && make clean
 	$(CC) $(CFLAGS) $(OBJS)  $(LIBFT_A) -o $(PROG)
 
